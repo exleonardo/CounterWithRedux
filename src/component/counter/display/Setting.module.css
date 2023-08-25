@@ -1,0 +1,35 @@
+.button {
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid deepskyblue;
+    border-radius: 5px;
+    padding: 10px;
+    width: 80%;
+    margin: 5% auto;
+
+}
+
+
+.display {
+    padding: 20px;
+    border: 1px solid deepskyblue;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.errorMessage {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    border: 1px solid deepskyblue;
+    border-radius: 5px;
+    height: 60%;
+    width: 80%;
+    margin: 0 auto;
+
+}
+

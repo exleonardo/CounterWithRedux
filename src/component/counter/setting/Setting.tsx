@@ -14,38 +14,46 @@ const Setting = () => {
     const inputMinValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch ( getMinValueAC ( e.currentTarget.value ) )
         dispatch ( errorMessageAC ( "Enter values and press set" ) )
-
     }
     const inputMaxValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch ( getMaxValueAC ( e.currentTarget.value ) )
         dispatch ( errorMessageAC ( "Enter values and press set" ) )
-        dispatch ( unlockSetAC () )
+        dispatch ( unlockSetAC ( false ) )
+
     }
     const saveInputvalue = () => {
         dispatch ( saveValueAC ( setting.inputMinValue , setting.inputMaxValue ) )
         dispatch ( errorMessageAC ( "" ) )
         dispatch ( buttonsDisabledAC () )
+        dispatch ( unlockSetAC ( true ) )
     }
     return (
-        <Grid xs={8} className={s.setting}>
+        <Grid xs={6} className={s.setting}>
             <Grid container spacing={1} className={s.containerValue}>
                 <div className={s.value}>
                     <div>Max value:</div>
-                    <TextField onChange={inputMaxValueHandler} value={setting.inputMaxValue} id="outlined-basic"
+                    <TextField className={s.inputs} onChange={inputMaxValueHandler} value={setting.inputMaxValue}
+                               id="outlined-basic"
                                label="max"
                                variant="outlined"
                                type="number">
-                    </TextField></div>
+                    </TextField>
+                </div>
                 <div className={s.value}>
                     <div>Min value:</div>
-                    <TextField onChange={inputMinValueHandler} value={setting.inputMinValue} id="outlined-basic"
+                    <TextField className={s.inputs} onChange={inputMinValueHandler} value={setting.inputMinValue}
+                               id="outlined-basic"
                                label="min"
                                variant="outlined"
                                type="number">
-                    </TextField></div>
+                    </TextField>
+                </div>
+
             </Grid>
-            <div className={s.set}><Button disabled={setting.error} variant="contained" size='small'
-                                           onClick={saveInputvalue}>set</Button></div>
+            <div className={s.set}>
+                <Button disabled={setting.error} variant="contained" size='small'
+                        onClick={saveInputvalue}>set</Button>
+            </div>
         </Grid>
     );
 };

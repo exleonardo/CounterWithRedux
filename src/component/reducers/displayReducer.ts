@@ -3,6 +3,8 @@ import {DisplayType} from "../store/store";
 const INCREMENT_VALUE = "INCREMENT-VALUE"
 const RESET_VALUE = "RESET-VALUE"
 const SAVE_VALUE = "SAVE-VALUE"
+const ERROR_MESSAGE = "ERROR-MESSAGE"
+const BUTTON_DISABLED = "BUTTONS-DISABLED"
 type ActionCreatorType =
     ReturnType<typeof incrementValueAC>
     | ReturnType<typeof resetValueAC>
@@ -14,15 +16,15 @@ const initialState: DisplayType[] = [
 ]
 export const displayReducer = (state: DisplayType[] = initialState , action: ActionCreatorType): DisplayType[] => {
     switch (action.type) {
-        case "INCREMENT-VALUE":
+        case INCREMENT_VALUE:
             return state.map ( el => el ? { ...el , minValue: el.minValue + 1 } : el )
-        case "RESET-VALUE":
+        case RESET_VALUE:
             return state.map ( (el) => el.minValue ? { ...el , minValue: +action.minValue } : el )
-        case "SAVE-VALUE":
+        case SAVE_VALUE:
             return state.map ( el => el ? { ...el , minValue: +action.minValue , maxValue: +action.maxValue } : el )
-        case "ERROR-MESSAGE":
+        case ERROR_MESSAGE:
             return state.map ( el => el ? { ...el , errorMessage: action.errorMessage } : el )
-        case "BUTTONS-DISABLED" :
+        case BUTTON_DISABLED :
             return state.map ( el => el ? { ...el , buttonIncrementError: false , buttonResetError: false } : el )
         default:
             return state
@@ -48,13 +50,13 @@ export const resetValueAC = (minValue: string) => {
 }
 export const errorMessageAC = (errorMessage: string) => {
     return {
-        type: "ERROR-MESSAGE" ,
+        type: ERROR_MESSAGE ,
         errorMessage
 
     } as const
 }
 export const buttonsDisabledAC = () => {
     return {
-        type: "BUTTONS-DISABLED" ,
+        type: BUTTON_DISABLED ,
     } as const
 }
