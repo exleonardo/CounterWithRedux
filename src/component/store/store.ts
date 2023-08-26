@@ -21,7 +21,7 @@ export type StateType = {
     display: DisplayType[];
     setting: SettingType[]
 }
-const state: StateType = {
+export const state: StateType = {
     display: [{ minValue: 0 , maxValue: 5 , buttonIncrementError: true , buttonResetError: true , errorMessage: "" }] ,
     setting: [{ inputMinValue: "" , inputMaxValue: "" , inputMaxError: true , inputMinError: true , error: true }]
 }

@@ -15,11 +15,11 @@ type ActionType = ReturnType<typeof getMinValueAC> | ReturnType<typeof getMaxVal
 export const settingReducer = (state: SettingType[] = initialState , action: ActionType): SettingType[] => {
     switch (action.type) {
         case SET_MIN_VALUE:
-            return state.map ( el => el ? { ...el , inputMinValue: action.inputMinValue } : el )
+            return state.map ( el => ({ ...el , inputMinValue: action.inputMinValue }) )
         case SET_MAX_VALUE:
-            return state.map ( el => el ? { ...el , inputMaxValue: action.inputMaxValue } : el )
+            return state.map ( el => ({ ...el , inputMaxValue: action.inputMaxValue }) )
         case SWITCH_SET:
-            return state.map ( el => el ? { ...el , error: action.error } : el )
+            return state.map ( el => ({ ...el , error: action.error }) )
         default:
             return state
     }

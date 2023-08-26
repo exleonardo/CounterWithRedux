@@ -45,7 +45,8 @@ const Setting = () => {
             <Grid container spacing={1} className={s.containerValue}>
                 <div className={s.value}>
                     <div>Max value:</div>
-                    <TextField className={s.inputs} onChange={inputMaxValueHandler} value={setting.inputMaxValue}
+                    <TextField className={s.inputs} error={setting.inputMaxError} onChange={inputMaxValueHandler}
+                               value={setting.inputMaxValue}
                                id="outlined-basic"
                                label="max"
                                variant="outlined"
@@ -54,7 +55,8 @@ const Setting = () => {
                 </div>
                 <div className={s.value}>
                     <div>Min value:</div>
-                    <TextField className={s.inputs} onChange={inputMinValueHandler} value={setting.inputMinValue}
+                    <TextField className={s.inputs} error={setting.inputMinError} onChange={inputMinValueHandler}
+                               value={setting.inputMinValue}
                                id="outlined-basic"
                                label="min"
                                variant="outlined"

@@ -12,7 +12,7 @@ type ActionCreatorType =
     | ReturnType<typeof saveValueAC>
     | ReturnType<typeof errorMessageAC>
     | ReturnType<typeof buttonsDisabledAC>
-    | ReturnType<typeof switchIncrementAC>
+
 
 const initialState: DisplayType[] = [
     { minValue: 0 , maxValue: 5 , buttonIncrementError: false , buttonResetError: false , errorMessage: '' }
@@ -33,8 +33,6 @@ export const displayReducer = (state: DisplayType[] = initialState , action: Act
             return state.map ( el => ({ ...el , errorMessage: action.errorMessage }) )
         case BUTTON_DISABLED :
             return state.map ( el => ({ ...el , buttonIncrementError: action.check , buttonResetError: action.check }) )
-        case "SWITCH-INCREMENT":
-            return state.map ( el => ({ ...el , buttonIncrementError: false }) )
         default:
             return state
     }
@@ -62,17 +60,11 @@ export const errorMessageAC = (errorMessage: string) => {
     return {
         type: ERROR_MESSAGE ,
         errorMessage
-
     } as const
 }
 export const buttonsDisabledAC = (check: boolean) => {
     return {
         type: BUTTON_DISABLED ,
         check
-    } as const
-}
-export const switchIncrementAC = () => {
-    return {
-        type: "SWITCH-INCREMENT"
     } as const
 }
