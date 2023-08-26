@@ -11,15 +11,17 @@ import s from './Setting.module.css'
 const Setting = () => {
     const dispatch = useDispatch ()
     const setting = useSelector<AppRootStateType , SettingType> ( (state) => state.setting[0] )
+    const changeMessageAndButton = () => {
+        dispatch ( errorMessageAC ( "Enter values and press set" ) )
+        dispatch ( unlockSetAC ( false ) )
+    }
     const inputMinValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch ( getMinValueAC ( e.currentTarget.value ) )
-        dispatch ( errorMessageAC ( "Enter values and press set" ) )
+        changeMessageAndButton ()
     }
     const inputMaxValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch ( getMaxValueAC ( e.currentTarget.value ) )
-        dispatch ( errorMessageAC ( "Enter values and press set" ) )
-        dispatch ( unlockSetAC ( false ) )
-
+        changeMessageAndButton ()
     }
     const saveInputvalue = () => {
         dispatch ( saveValueAC ( setting.inputMinValue , setting.inputMaxValue ) )

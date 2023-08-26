@@ -4,7 +4,7 @@ import {Alert} from "@mui/material";
 import Button from "@mui/material/Button";
 import {useDispatch , useSelector} from "react-redux";
 import {AppRootStateType , DisplayType , SettingType} from "../../store/store";
-import {incrementValueAC , resetValueAC} from "../../reducers/displayReducer";
+import {incrementValueAC , resetValueAC , switchIncrementAC} from "../../reducers/displayReducer";
 import s from "./Setting.module.css"
 
 const Display = () => {
@@ -12,20 +12,24 @@ const Display = () => {
     const setting = useSelector<AppRootStateType , SettingType> ( (state) => state.setting[0] )
     const dispatch = useDispatch ()
     const incrementButton = () => {
-        dispatch ( incrementValueAC () )
+        dispatch ( incrementValueAC ( setting.inputMinValue , setting.inputMaxValue ) )
     }
     const resetButton = () => {
         dispatch ( resetValueAC ( setting.inputMinValue ) )
+        dispatch ( switchIncrementAC () )
     }
+
     return (
         <Grid xs={6} className={s.display}>
             {display.errorMessage ?
                 <Alert severity="error" className={s.errorMessage}>{display.errorMessage}</Alert> :
                 <div className={s.errorMessage}>{display.minValue}</div>}
             <div className={s.button}>
-                <Button variant="contained" size='small' disabled={display.buttonIncrementError}
+                <Button variant="contained" size='small'
+                        disabled={display.buttonIncrementError}
+                        color={display.buttonIncrementError ? "error" : "info"}
                         onClick={incrementButton}>+</Button>
-                <Button variant="contained" size='small' disabled={display.buttonIncrementError}
+                <Button variant="contained" size='small' disabled={display.buttonResetError}
                         onClick={resetButton}>x</Button>
             </div>
         </Grid>
