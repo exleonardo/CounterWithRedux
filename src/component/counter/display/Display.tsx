@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 import Grid from "@mui/material/Unstable_Grid2";
 import {Alert} from "@mui/material";
 import Button from "@mui/material/Button";
@@ -11,14 +11,15 @@ const Display = () => {
     const display = useSelector<AppRootStateType , DisplayType> ( (state) => state.display[0] )
     const setting = useSelector<AppRootStateType , SettingType> ( (state) => state.setting[0] )
     const dispatch = useDispatch ()
+
+
     const incrementButton = () => {
-        dispatch ( incrementValueAC ( setting.inputMinValue , setting.inputMaxValue ) )
+        dispatch ( incrementValueAC ( +setting.inputMaxValue ) )
     }
     const resetButton = () => {
         dispatch ( resetValueAC ( setting.inputMinValue ) )
         dispatch ( switchIncrementAC () )
     }
-
     return (
         <Grid xs={6} className={s.display}>
             {display.errorMessage ?
@@ -27,7 +28,6 @@ const Display = () => {
             <div className={s.button}>
                 <Button variant="contained" size='small'
                         disabled={display.buttonIncrementError}
-                        color={display.buttonIncrementError ? "error" : "info"}
                         onClick={incrementButton}>+</Button>
                 <Button variant="contained" size='small' disabled={display.buttonResetError}
                         onClick={resetButton}>x</Button>

@@ -11,23 +11,24 @@ import s from './Setting.module.css'
 const Setting = () => {
     const dispatch = useDispatch ()
     const setting = useSelector<AppRootStateType , SettingType> ( (state) => state.setting[0] )
-    const changeMessageAndButton = () => {
-        dispatch ( errorMessageAC ( "Enter values and press set" ) )
-        dispatch ( unlockSetAC ( false ) )
+    const changeMessageAndButton = (errorMessage: string , error: boolean , disable: boolean) => {
+        dispatch ( errorMessageAC ( errorMessage ) )
+        dispatch ( unlockSetAC ( error ) )
+        dispatch ( buttonsDisabledAC ( disable ) )
     }
     const inputMinValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch ( getMinValueAC ( e.currentTarget.value ) )
-        changeMessageAndButton ()
+        changeMessageAndButton ( "Enter values and press set" , false , true )
     }
     const inputMaxValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch ( getMaxValueAC ( e.currentTarget.value ) )
-        changeMessageAndButton ()
+        changeMessageAndButton ( "Enter values and press set" , false , true )
     }
     const saveInputvalue = () => {
+        localStorage.setItem ( "minValue" , setting.inputMinValue )
+        localStorage.setItem ( "maxValue" , setting.inputMaxValue )
         dispatch ( saveValueAC ( setting.inputMinValue , setting.inputMaxValue ) )
-        dispatch ( errorMessageAC ( "" ) )
-        dispatch ( buttonsDisabledAC () )
-        dispatch ( unlockSetAC ( true ) )
+        changeMessageAndButton ( "" , true , false )
     }
     return (
         <Grid xs={6} className={s.setting}>
@@ -50,7 +51,6 @@ const Setting = () => {
                                type="number">
                     </TextField>
                 </div>
-
             </Grid>
             <div className={s.set}>
                 <Button disabled={setting.error} variant="contained" size='small'

@@ -15,25 +15,26 @@ type ActionCreatorType =
     | ReturnType<typeof switchIncrementAC>
 
 const initialState: DisplayType[] = [
-    { minValue: 0 , maxValue: 5 , buttonIncrementError: true , buttonResetError: true , errorMessage: '' }
+    { minValue: 0 , maxValue: 5 , buttonIncrementError: false , buttonResetError: false , errorMessage: '' }
 ]
 export const displayReducer = (state: DisplayType[] = initialState , action: ActionCreatorType): DisplayType[] => {
     switch (action.type) {
         case INCREMENT_VALUE:
-            if ( state[0].minValue === +action.maxValue ) {
-                return state.map ( el => el ? { ...el , buttonIncrementError: true } : el )
-            }
-            return state.map ( el => el ? { ...el , minValue: el.minValue + 1 } : el )
+            return state.map ( el => ({
+                ...el ,
+                minValue: el.minValue + 1 ,
+                buttonIncrementError: action.maxValue === el.minValue + 1
+            }) )
         case RESET_VALUE:
-            return state.map ( (el) => el.minValue ? { ...el , minValue: +action.minValue } : el )
+            return state.map ( (el) => ({ ...el , minValue: +action.minValue }) )
         case SAVE_VALUE:
-            return state.map ( el => el ? { ...el , minValue: +action.minValue , maxValue: +action.maxValue } : el )
+            return state.map ( el => ({ ...el , minValue: +action.minValue , maxValue: +action.maxValue }) )
         case ERROR_MESSAGE:
-            return state.map ( el => el ? { ...el , errorMessage: action.errorMessage } : el )
+            return state.map ( el => ({ ...el , errorMessage: action.errorMessage }) )
         case BUTTON_DISABLED :
-            return state.map ( el => el ? { ...el , buttonIncrementError: false , buttonResetError: false } : el )
+            return state.map ( el => ({ ...el , buttonIncrementError: action.check , buttonResetError: action.check }) )
         case "SWITCH-INCREMENT":
-            return state.map ( el => el ? { ...el , buttonIncrementError: false } : el )
+            return state.map ( el => ({ ...el , buttonIncrementError: false }) )
         default:
             return state
     }
@@ -45,10 +46,9 @@ export const saveValueAC = (minValue: string , maxValue: string) => {
         maxValue
     } as const
 }
-export const incrementValueAC = (minValue: string , maxValue: string) => {
+export const incrementValueAC = (maxValue: number) => {
     return {
         type: INCREMENT_VALUE ,
-        minValue ,
         maxValue
     } as const
 }
@@ -65,9 +65,10 @@ export const errorMessageAC = (errorMessage: string) => {
 
     } as const
 }
-export const buttonsDisabledAC = () => {
+export const buttonsDisabledAC = (check: boolean) => {
     return {
         type: BUTTON_DISABLED ,
+        check
     } as const
 }
 export const switchIncrementAC = () => {
