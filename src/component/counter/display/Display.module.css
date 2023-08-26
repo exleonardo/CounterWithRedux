@@ -30,6 +30,18 @@
     height: 60%;
     width: 80%;
     margin: 0 auto;
-
 }
 
+.displayErrorRed {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    border: 1px solid red;
+    border-radius: 5px;
+    height: 60%;
+    width: 80%;
+    margin: 0 auto;
+    color: red;
+}
