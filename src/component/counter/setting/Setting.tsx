@@ -1,4 +1,4 @@
-import React , {ChangeEvent} from 'react';
+import React , {ChangeEvent , useEffect} from 'react';
 import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -16,6 +16,16 @@ const Setting = () => {
         dispatch ( unlockSetAC ( error ) )
         dispatch ( buttonsDisabledAC ( disable ) )
     }
+    useEffect ( () => {
+        const minValue = localStorage.getItem ( "minValue" )
+        if ( minValue ) {
+            dispatch ( getMinValueAC ( minValue ) )
+        }
+        const maxValue = localStorage.getItem ( "maxValue" )
+        if ( maxValue ) {
+            dispatch ( getMaxValueAC ( maxValue ) )
+        }
+    } , [] );
     const inputMinValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch ( getMinValueAC ( e.currentTarget.value ) )
         changeMessageAndButton ( "Enter values and press set" , false , true )
