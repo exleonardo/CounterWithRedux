@@ -35,12 +35,23 @@ const Setting = () => {
         }
     } , [] );
     const inputMinValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        dispatch ( getMinValueAC ( e.currentTarget.value ) )
-        changeMessageAndButton ( "Enter values and press set" , true )
+        if ( +e.currentTarget.value < 0 || +e.currentTarget.value >= +setting.inputMaxValue ) {
+            dispatch ( getMinValueAC ( e.currentTarget.value ) )
+            changeMessageAndButton ( "Error" , true )
+        } else {
+            dispatch ( getMinValueAC ( e.currentTarget.value ) )
+            changeMessageAndButton ( "Enter values and press set" , true )
+        }
     }
     const inputMaxValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        dispatch ( getMaxValueAC ( e.currentTarget.value ) )
-        changeMessageAndButton ( "Enter values and press set" , true )
+        if ( +e.currentTarget.value < 0 || +e.currentTarget.value <= +setting.inputMinValue ) {
+            dispatch ( getMaxValueAC ( e.currentTarget.value ) )
+            changeMessageAndButton ( "Error" , true )
+        } else {
+            dispatch ( getMaxValueAC ( e.currentTarget.value ) )
+            changeMessageAndButton ( "Enter values and press set" , true )
+        }
+
     }
     const saveInputvalue = () => {
         localStorage.setItem ( "minValue" , setting.inputMinValue )

@@ -34,7 +34,8 @@ export const displayReducer = (state: DisplayType[] = initialState , action: Act
         case SAVE_VALUE:
             return state.map ( el => ({ ...el , minValue: +action.minValue , maxValue: +action.maxValue }) )
         case ERROR_MESSAGE:
-            return state.map ( el => ({ ...el , errorMessage: action.errorMessage }) )
+            const message = action.errorMessage
+            return state.map ( el => ({ ...el , errorMessage: message }) )
         case BUTTON_DISABLED :
             return state.map ( el => ({ ...el , buttonIncrementError: action.check , buttonResetError: action.check }) )
         case SWITCH_INCREMENT:
