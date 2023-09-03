@@ -1,10 +1,14 @@
 import {DisplayType} from "../store/store";
+import {
+    BUTTON_DISABLED , buttonsDisabledAC ,
+    ERROR_MESSAGE , errorMessageAC ,
+    INCREMENT_VALUE ,
+    incrementValueAC ,
+    RESET_VALUE ,
+    resetValueAC ,
+    SAVE_VALUE , saveValueAC , SWITCH_INCREMENT , switchIncrementAC
+} from "../actions/action";
 
-const INCREMENT_VALUE = "INCREMENT-VALUE"
-const RESET_VALUE = "RESET-VALUE"
-const SAVE_VALUE = "SAVE-VALUE"
-const ERROR_MESSAGE = "ERROR-MESSAGE"
-const BUTTON_DISABLED = "BUTTONS-DISABLED"
 
 type ActionCreatorType =
     ReturnType<typeof incrementValueAC>
@@ -12,7 +16,7 @@ type ActionCreatorType =
     | ReturnType<typeof saveValueAC>
     | ReturnType<typeof errorMessageAC>
     | ReturnType<typeof buttonsDisabledAC>
-
+    | ReturnType<typeof switchIncrementAC>
 
 const initialState: DisplayType[] = [
     { minValue: 0 , maxValue: 5 , buttonIncrementError: false , buttonResetError: false , errorMessage: '' }
@@ -33,38 +37,9 @@ export const displayReducer = (state: DisplayType[] = initialState , action: Act
             return state.map ( el => ({ ...el , errorMessage: action.errorMessage }) )
         case BUTTON_DISABLED :
             return state.map ( el => ({ ...el , buttonIncrementError: action.check , buttonResetError: action.check }) )
+        case SWITCH_INCREMENT:
+            return state.map ( el => ({ ...el , buttonIncrementError: false }) )
         default:
             return state
     }
-}
-export const saveValueAC = (minValue: string , maxValue: string) => {
-    return {
-        type: SAVE_VALUE ,
-        minValue ,
-        maxValue
-    } as const
-}
-export const incrementValueAC = (maxValue: number) => {
-    return {
-        type: INCREMENT_VALUE ,
-        maxValue
-    } as const
-}
-export const resetValueAC = (minValue: string) => {
-    return {
-        type: RESET_VALUE ,
-        minValue
-    } as const
-}
-export const errorMessageAC = (errorMessage: string) => {
-    return {
-        type: ERROR_MESSAGE ,
-        errorMessage
-    } as const
-}
-export const buttonsDisabledAC = (check: boolean) => {
-    return {
-        type: BUTTON_DISABLED ,
-        check
-    } as const
 }

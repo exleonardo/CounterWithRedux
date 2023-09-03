@@ -4,8 +4,9 @@ import {Alert} from "@mui/material";
 import Button from "@mui/material/Button";
 import {useDispatch , useSelector} from "react-redux";
 import {AppRootStateType , DisplayType , SettingType} from "../../store/store";
-import {incrementValueAC , resetValueAC , switchIncrementAC} from "../../reducers/displayReducer";
+
 import s from "./Display.module.css"
+import {incrementValueAC , resetValueAC , switchIncrementAC} from "../../actions/action";
 
 const Display = () => {
     const display = useSelector<AppRootStateType , DisplayType> ( (state) => state.display[0] )

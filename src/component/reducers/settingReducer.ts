@@ -1,44 +1,46 @@
 import {SettingType} from "../store/store";
+import {
+    getMaxValueAC ,
+    getMinValueAC ,
+    SET_MAX_VALUE ,
+    SET_MIN_VALUE ,
+    SWITCH_SET ,
+    unlockSetAC
+} from "../actions/action";
 
-const SET_MIN_VALUE = "SET-MIN-VALUE"
-const SET_MAX_VALUE = "SET-MAX-VALUE"
-const SWITCH_SET = "SWITCH-SET"
 
 const initialState: SettingType[] = [{
     inputMinValue: "" ,
     inputMaxValue: "" ,
-    inputMaxError: true ,
-    inputMinError: true ,
+    inputMaxError: false ,
+    inputMinError: false ,
     error: true
 }]
 type ActionType = ReturnType<typeof getMinValueAC> | ReturnType<typeof getMaxValueAC> | ReturnType<typeof unlockSetAC>
 export const settingReducer = (state: SettingType[] = initialState , action: ActionType): SettingType[] => {
     switch (action.type) {
         case SET_MIN_VALUE:
-            return state.map ( el => ({ ...el , inputMinValue: action.inputMinValue }) )
+            console.log ( state[0].inputMinValue )
+            console.log ( state[0].inputMinError )
+
+            return state.map ( el => ({
+                ...el ,
+                inputMinValue: action.inputMinValue ,
+                inputMinError: +action.inputMinValue < 0 || +action.inputMinValue >= +el.inputMaxValue && (el.inputMinValue !== "") ,
+                inputMaxError: false ,
+                error: +action.inputMinValue < 0 || +action.inputMinValue >= +el.inputMaxValue || +el.inputMaxValue < 0
+            }) )
         case SET_MAX_VALUE:
-            return state.map ( el => ({ ...el , inputMaxValue: action.inputMaxValue }) )
+            return state.map ( el => ({
+                ...el ,
+                inputMaxValue: action.inputMaxValue ,
+                inputMaxError: +action.inputMaxValue < 0 || +action.inputMaxValue <= +el.inputMinValue && (el.inputMaxValue !== "") ,
+                inputMinError: false ,
+                error: +action.inputMaxValue < 0 || +action.inputMaxValue <= +el.inputMinValue || +el.inputMinValue < 0
+            }) )
         case SWITCH_SET:
             return state.map ( el => ({ ...el , error: action.error }) )
         default:
             return state
     }
-}
-export const getMinValueAC = (inputMinValue: string) => {
-    return {
-        type: SET_MIN_VALUE ,
-        inputMinValue
-    } as const
-}
-export const getMaxValueAC = (inputMaxValue: string) => {
-    return {
-        type: SET_MAX_VALUE ,
-        inputMaxValue
-    } as const
-}
-export const unlockSetAC = (error: boolean) => {
-    return {
-        type: SWITCH_SET ,
-        error
-    } as const
 }

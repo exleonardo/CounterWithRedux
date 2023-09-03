@@ -3,17 +3,25 @@ import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {useDispatch , useSelector} from "react-redux";
-import {getMaxValueAC , getMinValueAC , unlockSetAC} from "../../reducers/settingReducer";
-import {buttonsDisabledAC , errorMessageAC , saveValueAC} from "../../reducers/displayReducer";
-import {AppRootStateType , SettingType} from "../../store/store";
+
+
+import {AppRootStateType , DisplayType , SettingType} from "../../store/store";
 import s from './Setting.module.css'
+import {
+    buttonsDisabledAC ,
+    errorMessageAC ,
+    getMaxValueAC ,
+    getMinValueAC ,
+    saveValueAC ,
+    unlockSetAC
+} from "../../actions/action";
 
 const Setting = () => {
     const dispatch = useDispatch ()
     const setting = useSelector<AppRootStateType , SettingType> ( (state) => state.setting[0] )
-    const changeMessageAndButton = (errorMessage: string , error: boolean , disable: boolean) => {
+
+    const changeMessageAndButton = (errorMessage: string , disable: boolean) => {
         dispatch ( errorMessageAC ( errorMessage ) )
-        dispatch ( unlockSetAC ( error ) )
         dispatch ( buttonsDisabledAC ( disable ) )
     }
     useEffect ( () => {
@@ -28,18 +36,20 @@ const Setting = () => {
     } , [] );
     const inputMinValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch ( getMinValueAC ( e.currentTarget.value ) )
-        changeMessageAndButton ( "Enter values and press set" , false , true )
+        changeMessageAndButton ( "Enter values and press set" , true )
     }
     const inputMaxValueHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch ( getMaxValueAC ( e.currentTarget.value ) )
-        changeMessageAndButton ( "Enter values and press set" , false , true )
+        changeMessageAndButton ( "Enter values and press set" , true )
     }
     const saveInputvalue = () => {
         localStorage.setItem ( "minValue" , setting.inputMinValue )
         localStorage.setItem ( "maxValue" , setting.inputMaxValue )
         dispatch ( saveValueAC ( setting.inputMinValue , setting.inputMaxValue ) )
-        changeMessageAndButton ( "" , true , false )
+        changeMessageAndButton ( "" , false )
+        dispatch ( unlockSetAC ( true ) )
     }
+
     return (
         <Grid xs={6} className={s.setting}>
             <Grid container spacing={1} className={s.containerValue}>
